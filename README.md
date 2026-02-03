@@ -1,78 +1,157 @@
 # DAPS
-DAPS is a shell written in pure Python. No other language except from JSON for the configuration file is used.
-# Installation
-Go to Releases and get the newest version of DAPS.
-This is a .zip for Releases and a single file for pre-releases. (Pre-releases can some times be .zips too! Make sure you're downloading the correct version!)
-I'd recommend a stable version, aka as a "Release"
-Once downloaded, extract to a folder of your choice.
-Open the `installer` foler and run install.sh.
-After that, just run `daps`!
-# Usage
-Here comes the fun part!
-Basic shell commands work, like `cd` or `ls`.
-Built-in commands are `clear`, `clearhist`, `update` and `exit`
-### clear
-The `clear` command will clear everything on screen.
-See Configuration below for options.
-### clearhist
-Clears history.
-The shell cannot record history if you have rn this command until the shell is restarted.
-This is a feature to prevent bugs, and cannot be turned off.
-### exit
+
+DAPS is a shell written in pure Python. No other language is used, except JSON for the configuration file.
+
+---
+
+## Installation
+
+1. Go to **Releases** and get the newest version of DAPS.  
+   - Releases come as `.zip` files. Pre-releases may be `.zip` or single files. Make sure you download the correct version.  
+   - Stable versions (marked as **Release**) are recommended.
+
+2. Once downloaded, extract it to a folder of your choice.
+
+3. Open the `installer` folder and run:
+
+```bash
+sh install.sh
+```
+
+4. After installation, run:
+
+```bash
+daps
+```
+
+---
+
+## Usage
+
+Basic shell commands work, like `cd` or `ls`.  
+
+Built-in commands include:
+
+- `clear` – Clears everything on screen.  
+- `clearhist` – Clears shell history. After running this, the shell cannot record history until restarted. This prevents bugs.  
+- `exit` – Exits the shell.  
+- `update` – Updates DAPS by cloning the repository into a temp folder and copying it into `/usr/bin`.
+
+---
+
+### `clear`
+
+The `clear` command clears the screen.  
+See **Configuration** below for options.
+
+### `clearhist`
+
+Clears shell history.  
+The shell cannot record history if this command has been run, until the shell is restarted. This is a safety feature.
+
+### `exit`
+
 Exits the shell.
-What else would it do?
-### update
-This command will update DAPS by cloning DAPS into a temp folder, coping that version of DAPS into /usr/bin.
-# Configuration of the shell
-The shell will create a file named config.json in the ~/.config/daps/ directory where ~ is your cuurent user's home folder.
-By defualt, the file will only contain: 
+
+### `update`
+
+Updates DAPS by cloning the repository into a temporary folder and copying the new version into `/usr/bin`.
+
+---
+
+## Configuration
+
+The shell creates a file named `config.json` in the `~/.config/daps/` directory (where `~` is your current user's home folder).  
+
+By default, the file contains:
+
 ```json
 {}
 ```
-To start editing, drop the last } to the bottom like this:
+
+To start editing, add options inside the braces:
+
 ```json
 {
+}
+```
 
-}
-```
-Then, you can add the following options.
-### "greeter"
-"greeter" is a config option runs it's value at every shell start.
-Like so:
-```
+---
+
+### `"greeter"`
+
+The `"greeter"` option runs a command every time the shell starts:
+
+```json
 {
-"greeter": "fastfetch"
+  "greeter": "fastfetch"
 }
 ```
+
 This will run `fastfetch` at shell start.
 
-### "aliases"
-"aliases" is a config list for shell aliases.
-Like so:
-```
+---
+
+### `"aliases"`
+
+The `"aliases"` option lets you create shell aliases:
+
+```json
 {
-"aliases": {
-"ll": "ls -l"
-}
+  "aliases": {
+    "ll": "ls -l"
+  }
 }
 ```
-#### PLEASE NOTE! At the moment, built-in shell commands, can not be used in aliases. Built-in commands are listed above.
-### "cleargreet"
-"cleargreet" specifies if the greeter program should be ran on `clear`.
-Like so:
+
+**Note:** Built-in shell commands cannot be used in aliases. Built-in commands are listed above.
+
+---
+
+### `"cleargreet"`
+
+The `"cleargreet"` option specifies whether the greeter should run when using `clear`:
+
+```json
 {
-"cleargreet": "yes"
+  "cleargreet": "yes"
 }
-### What a full config would look like:
 ```
+
+---
+
+### `"devicename"`
+
+The `"devicename"` option specifies if the **device name** (e.g., `ASUS E410MA`) should be used instead of the hostname (e.g., `fedora`):
+
+```json
 {
-aliases: {
-"ll": "ls -l"
-}
-greeter: "fastfetch"
-"cleargreet": "yes"
+  "devicename": true
 }
 ```
-## More things are to come!
-## DAPS is protected by the GNU license, meaning any contributions or deriatives of the program MUST be fully open source.
-### 2026, Stormzady
+
+---
+
+### Example of a full config
+
+```json
+{
+  "aliases": {
+    "ll": "ls -l"
+  },
+  "greeter": "fastfetch",
+  "cleargreet": "yes",
+  "devicename": true
+}
+```
+
+---
+
+## More Information
+
+- More features are coming soon!  
+- DAPS is protected by the **GNU license**, meaning any contributions or derivatives of the program **must be fully open source**.  
+
+---
+
+**© 2026, Nytrix Labs**

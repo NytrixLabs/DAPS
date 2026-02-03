@@ -7,7 +7,6 @@ import subprocess
 import signal
 import json
 # DO NOT MODIFY ANYTHING BELOW THIS LINE UNLESS YOU KNOW WHAT YOU ARE DOING!
-devmode = False
 # Colourwgfues
 COLOR_RE = "\033[0m"
 COLOR_USER = "\033[92m"
@@ -15,32 +14,31 @@ COLOR_HOST = "\033[94m"
 COLOR_CWD = "\033[96m"
 COLOR_ERR = "\033[91m"
 def loadconf():
-        whereis = os.path.expanduser("~/.config/daps/config.json")
-        if os.path.exists(whereis):
-                with open(f"{whereis}", "r") as f:
-                        return json.load(f)
-        else:
-                if os.path.exists(os.path.expanduser("~/.config/daps")):
-                        if os.path.exists(os.path.expanduser("~/.config/daps/config.json")):
-                                print("Invalid JSON in the config file.")
-                                sys.exit(255)
-                        else:
-                                todoto = os.path.expanduser("~/.config/daps/config.json")
-                                subprocess.run(["echo " "{} " ">> " f"{todoto}" ], shell=True)
-                                if os.path.exists(whereis):
-                                    with open("whereis", "r") as f:
-                                        return json.load(f)
-                else:
-                        os.makedirs(os.path.expanduser("~/.config/daps"))
-                        todoto = os.path.expanduser("~/.config/daps/config.json")
-                        subprocess.run(["echo " "{} " "> " f"todoto"], shell=True)
-                        if os.path.exists(whereis):
-                            with open(f"whereis", "r") as f:
-                                return json.load(f)
+    whereis = os.path.expanduser("~/.config/daps/config.json")
+    config_dir = os.path.dirname(whereis)
+    
+    # Ensure the directory exists
+    if not os.path.exists(config_dir):
+        os.makedirs(config_dir)
+    
+    # If file does not exist, create empty JSON
+    if not os.path.exists(whereis):
+        with open(whereis, "w") as f:
+            f.write("{}")
+    
+    # Now try to load JSON
+    try:
+        with open(whereis, "r") as f:
+            return json.load(f)
+    except json.JSONDecodeError:
+        print("Invalid JSON in the config file.")
+        sys.exit(255)
+
 # Shenanigans taht make it go brrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr
 config = loadconf()
 alias = config.get("aliases", {})
-cleargreet = config.get("cleargreet", "no") == "yes"
+devicename = bool(config.get("devicename", False))
+cleargreet = bool(config.get("cleargreet", False))
 signal.signal(signal.SIGINT, lambda sig, frame: sys.exit(255))
 readline.parse_and_bind("tab: complete")
 readline.parse_and_bind("set show-all-if-ambiguous-on")
@@ -49,19 +47,20 @@ if os.path.exists(historyfile):
         readline.read_history_file(historyfile)
 icmds = ["nano", "vi", "vim", "less", "more", "bash", "zsh", "fish", "sudo", "daps"]
 user = subprocess.run(["whoami"], capture_output=True, text=True).stdout.strip()
-hostn = subprocess.run(["cat", "/etc/hostname"], capture_output=True, text=True).stdout.strip()
-if devmode == True:
-        shostn = os.system("cat /etc/dapshostn")
-        if hostn == shostn:
-                pass
-        else:
-                print("Your hostname DOES NOT match the compiled hostname.")
-                sys.exit(255)
+if devicename:
+   hostn = subprocess.run(
+    "cat /sys/devices/virtual/dmi/id/product_name",
+    shell=True,
+    capture_output=True,
+    text=True
+).stdout.strip()
+else:
+        hostn = subprocess.run(["cat", "/etc/hostname"], capture_output=True, text=True).stdout.strip()
 cwd = os.getcwd()
 iden = "$"
 if cwd == f"/home/{user}":
         cwd = "~"
-elif cwd == f"/root":
+elif cwd == "/root":
         if user == "root":
                 cwd = "~"
                 iden = "#"
@@ -76,7 +75,7 @@ def update():
     print("Done!")
 def clear():
         os.system("clear")
-def runfc(confsec):
+def runfc(confsec: str):
         torun = config.get(confsec)
         if not torun:
             return
@@ -99,7 +98,7 @@ while True:
                         print(f"{COLOR_ERR}[{errcode}]{COLOR_RE} - {COLOR_USER}{user}{COLOR_RE}@{COLOR_HOST}{hostn}{COLOR_RE} {COLOR_USER}({iden}){COLOR_RE} - {COLOR_CWD}{cwd}")
                 try:
                         cmd = input(f"{COLOR_USER}>{COLOR_HOST} ").strip()
-                except EOFError as eof:
+                except EOFError:
                         print("An exception occurred at ^D - EOFError.\n DAPS will now close.")
                         sys.exit(123)
                 if cmd in alias:
