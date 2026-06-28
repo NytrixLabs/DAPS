@@ -493,7 +493,7 @@ while True:
             open(historyfile, "w").close()
             historycleared = 1
             print(
-                f"{COLOR_ERR}ATTENTION! History will no longer be recorded until you restart the shell! (exit and then log back in/run daps)"
+                f"{COLOR_ERR}ATTENTION! History will no longer be recorded until you restart the shell!s"
             )
         elif ccmd == "update":
             update()
