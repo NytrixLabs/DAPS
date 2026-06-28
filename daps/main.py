@@ -385,15 +385,6 @@ elif cwd == "/root":
         pass
 
 
-def update():
-    print("Updating.. A sudo prompt may appear soon.")
-    os.system("rm -rf /tmp/daps/")
-    os.system("git clone https://github.com/NytrixLabs/DAPS /tmp/daps")
-    os.system("sudo cp /tmp/daps/daps /usr/bin/daps")
-    os.system("rm -rf /tmp/daps/")
-    print("Done!")
-
-
 def clear():
     os.system("clear")
 
@@ -495,8 +486,6 @@ while True:
             print(
                 f"{COLOR_ERR}ATTENTION! History will no longer be recorded until you restart the shell!s"
             )
-        elif ccmd == "update":
-            update()
         elif ccmd == "exit":
             sys.exit(255)
         elif "." in ccmd:
