@@ -527,6 +527,5 @@ while True:
             errcode = False
         if historycleared:
             readline.clear_history()
-            pass
         else:
             readline.write_history_file(historyfile)
