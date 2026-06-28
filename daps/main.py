@@ -354,7 +354,6 @@ greeter = config.get("greeter")
 alias = config.get("aliases", {})
 devicename = bool(config.get("devicename", False))
 cleargreet = bool(config.get("cleargreet", False))
-git = bool(config.get("git", True))
 signal.signal(signal.SIGINT, signal.SIG_IGN)
 readline.parse_and_bind("tab: complete")
 readline.parse_and_bind("set show-all-if-ambiguous-on")
@@ -396,41 +395,6 @@ def runfc(confsec: str):
     os.system(torun)
 
 
-def getgit():
-    try:
-        result = subprocess.run(
-            ["git", "rev-parse", "--git-dir"],
-            capture_output=True,
-            text=True,
-            stderr=subprocess.DEVNULL,
-            cwd=os.getcwd(),
-        )
-        if result.returncode != 0:
-            return ""
-
-        branch_result = subprocess.run(
-            ["git", "rev-parse", "--abbrev-ref", "HEAD"],
-            capture_output=True,
-            text=True,
-            cwd=os.getcwd(),
-        )
-        branch = branch_result.stdout.strip()
-
-        status_result = subprocess.run(
-            ["git", "status", "--porcelain"],
-            capture_output=True,
-            text=True,
-            cwd=os.getcwd(),
-        )
-
-        if status_result.stdout.strip():
-            return f" ({branch}*)"
-        else:
-            return f" ({branch})"
-    except:
-        return ""
-
-
 # out = subprocess.run([f"{torun}"], capture_output=True, text=True)
 # print(out.stdout)
 clear()
@@ -438,8 +402,6 @@ if greeter == "daps":
     sysfetch()
 else:
     runfc("greeter")
-if git:
-    repo = getgit()
 historycleared = 0
 errcode = None
 while True:
