@@ -4,27 +4,11 @@ DAPS is a shell written in pure Python. No other language is used, except JSON f
 
 ---
 
-## Installation
-
-1. Go to **Releases** and get the newest version of DAPS.  
-   - Releases come as `.zip` files. Pre-releases may be `.zip` or single files. Make sure you download the correct version.  
-   - Stable versions (marked as **Release**) are recommended.
-
-2. Once downloaded, extract it to a folder of your choice.
-
-3. Open the `installer` folder and run:
+DAPS is available on PyPl!
 
 ```bash
-sh install.sh
+pip install daps-pip
 ```
-
-4. After installation, run:
-
-```bash
-daps
-```
-
----
 
 ## Usage
 
