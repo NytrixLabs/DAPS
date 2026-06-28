@@ -1,13 +1,13 @@
 # DAPS
 
-DAPS is a shell written in pure Python. No other language is used, except JSON for the configuration file.
+DAPS is a shell written in pure Python. No other language is used—even your configuration file is pure Python code!
 
 [![PyPI Version](https://img.shields.io/pypi/v/daps-pip?style=for-the-badge&color=blue)](https://pypi.org/project/daps-pip/)
 [![PyPI Downloads](https://img.shields.io/pypi/dm/daps-pip?style=for-the-badge&color=green)](https://pypi.org/project/daps-pip/)
 
 ---
 
-DAPS is available on PyPl!
+DAPS is available on PyPI!
 
 ```bash
 pip install daps-pip
@@ -15,25 +15,26 @@ pip install daps-pip
 
 ## Usage
 
-Basic shell commands work, like `cd` or `ls`.  
+Basic shell commands work seamlessly, like `cd` or `ls`.  
 
 Built-in commands include:
 
 - `clear` – Clears everything on screen.  
 - `clearhist` – Clears shell history. After running this, the shell cannot record history until restarted. This prevents bugs.  
 - `exit` – Exits the shell.  
+- `update` – Updates DAPS to the latest version.
 
 ---
 
 ### `clear`
 
 The `clear` command clears the screen.  
-See **Configuration** below for options.
+See **Configuration** below for behavior options.
 
 ### `clearhist`
 
 Clears shell history.  
-The shell cannot record history if this command has been run, until the shell is restarted. This is a safety feature.
+The shell cannot record history if this command has been run until the shell is restarted. This is a safety feature.
 
 ### `exit`
 
@@ -47,87 +48,79 @@ Updates DAPS by cloning the repository into a temporary folder and copying the n
 
 ## Configuration
 
-The shell creates a file named `config.json` in the `~/.config/daps/` directory (where `~` is your current user's home folder).  
+The shell automatically creates a configuration file named `config.py` in your `~/.config/daps/` directory. 
 
-By default, the file contains:
+Because the configuration file is actual Python code, you modify settings by changing properties on the `daps` object. By default, the file initializes with:
 
-```json
-{}
-```
-
-To start editing, add options inside the braces:
-
-```json
-{
-}
+```python
+daps = Config()
+daps.aliases = {}
+daps.devicename = False
+daps.cleargreet = False
+daps.greeter = None
 ```
 
 ---
 
-### `"greeter"`
+### `daps.greeter`
 
-The `"greeter"` option runs a command every time the shell starts:
+The `greeter` option runs a command as a string every time the shell starts:
 
-```json
-{
-  "greeter": "fastfetch"
-}
-```
-
-This will run `fastfetch` at shell start.
-
----
-
-### `"aliases"`
-
-The `"aliases"` option lets you create shell aliases:
-
-```json
-{
-  "aliases": {
-    "ll": "ls -l"
-  }
-}
-```
-
-**Note:** Built-in shell commands cannot be used in aliases. Built-in commands are listed above.
-
----
-
-### `"cleargreet"`
-
-The `"cleargreet"` option specifies whether the greeter should run when using `clear`:
-
-```json
-{
-  "cleargreet": "yes"
-}
+```python
+daps.greeter = "fastfetch"
 ```
 
 ---
 
-### `"devicename"`
+### `daps.aliases`
 
-The `"devicename"` option specifies if the **device name** (e.g., `ASUS E410MA`) should be used instead of the hostname (e.g., `fedora`):
+The `aliases` option uses a Python dictionary to define your shell aliases:
 
-```json
-{
-  "devicename": true
+```python
+daps.aliases = {
+    "ll": "ls -l",
+    "gcm": "git commit -m"
 }
+```
+
+**Note:** Built-in shell commands cannot be used in aliases. Built-in commands are listed in the usage section above.
+
+---
+
+### `daps.cleargreet`
+
+The `cleargreet` option expects a boolean value (`True` or `False`). It specifies whether your greeter command should run again when you type `clear`:
+
+```python
+daps.cleargreet = True
 ```
 
 ---
 
-### Example of a full config
+### `daps.devicename`
 
-```json
-{
-  "aliases": {
-    "ll": "ls -l"
-  },
-  "greeter": "fastfetch",
-  "cleargreet": "yes",
-  "devicename": true
+The `devicename` option expects a boolean value (`True` or `False`). It specifies if your literal **device name** (e.g., `ASUS E410MA`) should be displayed in the prompt instead of the standard network hostname (e.g., `fedora`):
+
+```python
+daps.devicename = True
+```
+
+---
+
+### Example of a full `config.py`
+
+```python
+daps = Config()
+
+# Custom Shell Customization
+daps.greeter = "fastfetch"
+daps.cleargreet = True
+daps.devicename = False
+
+# Quick Aliases
+daps.aliases = {
+    "ll": "ls -lh",
+    "la": "ls -A"
 }
 ```
 
