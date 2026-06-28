@@ -1,0 +1,25 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "daps-pip"
+version = "0.0.1"
+description = "DAPS - Definitely a Python Shell"
+readme = "README.md"
+requires-python = ">=3.10"
+authors = [
+    { name = "arizona" }
+]
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Operating System :: POSIX :: Linux",
+    "Topic :: Terminals"
+]
+dependencies = [] # Core Python standard libraries only
+
+[project.scripts]
+daps = "daps.main:__run_script__"
+
+[tool.hatch.build.targets.wheel]
+packages = ["daps"]  # Explicitly forces Hatchling to bundle your root daps folder

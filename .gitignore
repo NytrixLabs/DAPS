@@ -1,0 +1,18 @@
+# Python bytecode and caching
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Local environment managers
+.venv/
+venv/
+.python-version
+
+# Build and compilation outputs (Hatchling/uv files)
+build/
+dist/
+*.egg-info/
+
+# Local IDE directories
+.vscode/
+.idea/
