@@ -32,7 +32,7 @@ See **Configuration** below for behavior options.
 ### `clearhist`
 
 Clears shell history.  
-The shell cannot record history if this command has been run until the shell is restarted. This is a safety feature.
+The shell cannot record history if this command has been run until the shell is restarted. This is a *feature*, not a **bug**.
 
 ### `exit`
 
@@ -44,7 +44,7 @@ Exits the shell.
 
 The shell automatically creates a configuration file named `config.py` in your `~/.config/daps/` directory. 
 
-Because the configuration file is actual Python code, you modify settings by changing properties on the `daps` object. By default, the file initializes with:
+Because the configuration file is actual Python code, you modify settings by changing properties on the `Config` object. By default, the file initializes with:
 
 ```python
 daps = Config()
@@ -127,4 +127,4 @@ daps.aliases = {
 
 ---
 
-**© 2026, Nytrix Labs**
+**2026, Nytrix Labs**
