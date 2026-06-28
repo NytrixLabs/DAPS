@@ -22,7 +22,6 @@ Built-in commands include:
 - `clear` – Clears everything on screen.  
 - `clearhist` – Clears shell history. After running this, the shell cannot record history until restarted. This prevents bugs.  
 - `exit` – Exits the shell.  
-- `update` – Updates DAPS by cloning the repository into a temp folder and copying it into `/usr/bin`.
 
 ---
 
