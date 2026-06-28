@@ -2,6 +2,8 @@
 
 DAPS is a shell written in pure Python. No other language is used, except JSON for the configuration file.
 
+[![PyPI](https://img.shields.io/pypi/v/daps-pip?style=for-the-badge)](https://pypi.org/project/daps-pip/)
+
 ---
 
 DAPS is available on PyPl!
